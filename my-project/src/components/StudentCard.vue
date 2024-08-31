@@ -1,9 +1,19 @@
 <template>
   <v-card>
     <v-card-text>
-      <div>#{{ student.RA }}</div>
-      <p class="ma-0 pa-0 text-h5 text--primary">{{ student.Nome }}</p>
-      <p class="ma-0 pa-0 text-h5 text--primary">{{ student.Email }}</p>
+      <div class="mb-2"><strong>RA:</strong> {{ student.RA }}</div>
+      <div class="mb-2">
+        <strong class="text-subtitle-1 text--primary">Nome:</strong>
+        {{ student.Nome }}
+      </div>
+      <div class="mb-2">
+        <strong class="text-subtitle-1 text--primary">E-mail:</strong>
+        {{ student.Email }}
+      </div>
+      <div>
+        <strong class="text-subtitle-1 text--primary">CPF:</strong>
+        {{ student.CPF }}
+      </div>
     </v-card-text>
     <v-card-actions>
       <v-list-item class="grow">

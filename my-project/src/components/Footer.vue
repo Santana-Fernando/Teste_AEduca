@@ -2,7 +2,8 @@
   <v-footer padless fixed>
     <v-row justify="center" no-gutters>
       <v-col class="secondary pt-5 text-center grey--text" cols="12">
-        Copyright® {{ new Date().getFullYear() }} — <strong>Tasks</strong>
+        Copyright® {{ new Date().getFullYear() }} —
+        <strong>Registers management</strong>
       </v-col>
       <v-col
         class="secondary pb-5 text-center grey--text text-caption"

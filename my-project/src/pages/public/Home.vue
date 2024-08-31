@@ -2,7 +2,7 @@
   <v-main class="overflow-hidden">
     <app-bar
       :background="'https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg'"
-      @OnAdd="createTask"
+      @OnAdd="create"
     ></app-bar>
 
     <v-container>
@@ -32,11 +32,11 @@
           v-for="student in students"
           :key="student.RA"
         >
-          <task-card
+          <student-card
             :student="student"
-            @onEdit="editTask"
-            @onRemove="removeTask"
-          ></task-card>
+            @onEdit="edit"
+            @onRemove="remove"
+          ></student-card>
         </v-col>
       </v-row>
 
@@ -51,20 +51,20 @@
         </v-col>
       </v-row>
 
-      <!-- Create Task Dialog -->
-      <task-create-dialog
-        :showDialog="showTaskCreateDialog"
-        @onUpdated="taskCreated"
-        @onClose="showTaskCreateDialog = false"
+      <!-- Create Student Dialog -->
+      <student-create-dialog
+        :showDialog="showStudentCreateDialog"
+        @onUpdated="studentCreated"
+        @onClose="showStudentCreateDialog = false"
         @onError="showError"
       />
 
-      <!-- Update Task Dialog -->
-      <task-update-dialog
-        :showDialog="showTaskUpdateDialog"
+      <!-- Update Student Dialog -->
+      <student-update-dialog
+        :showDialog="showStudentUpdateDialog"
         :student="student"
-        @onUpdated="taskSaved"
-        @onClose="showTaskUpdateDialog = false"
+        @onUpdated="studentSaved"
+        @onClose="showStudentUpdateDialog = false"
         @onError="showError"
       />
 
@@ -77,30 +77,30 @@
 </template>
 
 <script>
-import TasksApi from '@/api/tasks.api.js'
+import Api from '@/api/student.api.js'
 import AppBar from '@/components/AppBar.vue'
-import TaskCard from '@/components/TaskCard.vue'
-import TaskCreateDialog from '@/components/TaskCreateDialog.vue'
-import TaskUpdateDialog from '@/components/TaskUpdateDialog.vue'
+import StudentCard from '@/components/StudentCard.vue'
+import StudentCreateDialog from '@/components/StudentCreateDialog.vue'
+import StudentUpdateDialog from '@/components/StudentUpdateDialog.vue'
 
 export default {
   data: () => ({
     loading: false,
     students: [],
-    showTaskCreateDialog: false,
-    showTaskUpdateDialog: false,
+    showStudentCreateDialog: false,
+    showStudentUpdateDialog: false,
     student: null,
     snackbar: false,
     snackbar_text: null,
   }),
   created() {
-    this.loadTasks()
+    this.loadStudents()
   },
   methods: {
-    loadTasks() {
+    loadStudents() {
       this.loading = true
       console.log('Entrou na função')
-      TasksApi.list().then((response) => {
+      Api.list().then((response) => {
         console.log(response)
         this.students = response
         this.loading = false
@@ -108,30 +108,30 @@ export default {
 
       console.log(this.students)
     },
-    createTask() {
-      this.showTaskCreateDialog = true
+    create() {
+      this.showStudentCreateDialog = true
     },
-    taskCreated() {
-      this.loadTasks()
-      this.showTaskCreateDialog = false
-      this.snackbar_text = 'Task has been created!'
+    studentCreated() {
+      this.loadStudents()
+      this.showStudentCreateDialog = false
+      this.snackbar_text = 'Student has been created!'
       this.snackbar = true
     },
-    editTask(student) {
-      TasksApi.get(student.RA).then((student) => {
+    edit(student) {
+      Api.get(student.RA).then((student) => {
         this.student = student
-        this.showTaskUpdateDialog = true
+        this.showStudentUpdateDialog = true
       })
     },
-    taskSaved() {
-      this.loadTasks()
-      this.showTaskUpdateDialog = false
-      this.snackbar_text = 'Task saved successfuly!'
+    studentSaved() {
+      this.loadStudents()
+      this.showStudentUpdateDialog = false
+      this.snackbar_text = 'Student saved successfuly!'
       this.snackbar = true
     },
-    removeTask(student) {
-      TasksApi.delete(student.RA).then(() => {
-        this.loadTasks()
+    remove(student) {
+      Api.delete(student.RA).then(() => {
+        this.loadStudents()
       })
     },
     showError(error) {
@@ -139,7 +139,7 @@ export default {
       this.snackbar = true
     },
   },
-  components: { AppBar, TaskCard, TaskCreateDialog, TaskUpdateDialog },
+  components: { AppBar, StudentCard, StudentCreateDialog, StudentUpdateDialog },
 }
 </script>
 

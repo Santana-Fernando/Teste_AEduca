@@ -6,38 +6,51 @@
       hide-overlay
       transition="dialog-bottom-transition"
     >
-      <task-form
+      <student-form
         :student="student"
         :loading="loading"
-        @onSave="updateTask"
+        @onSave="create"
         @onClose="$emit('onClose')"
-      ></task-form>
+      ></student-form>
     </v-dialog>
   </v-container>
 </template>
 
 <script>
-import TasksApi from '@/api/tasks.api.js'
+import Api from '@/api/student.api.js'
 import ApiResponseMixin from '@/mixins/ApiResponseMixin'
-import TaskForm from '@/components/TaskForm'
+import StudentForm from '@/components/StudentForm'
 
 export default {
-  props: ['showDialog', 'student'],
+  props: ['showDialog'],
+  mixins: [ApiResponseMixin],
   data: () => ({
     loading: false,
+    student: {
+      RA: 0,
+      Nome: '',
+      Email: '',
+      CPF: '',
+    },
   }),
-  mixins: [ApiResponseMixin],
   components: {
-    TaskForm,
+    StudentForm,
   },
   methods: {
-    updateTask(student) {
+    clearFields() {
+      this.student.Nome = ''
+      this.student.Email = ''
+      this.student.CPF = ''
+    },
+    create(student) {
       this.loading = true
-      TasksApi.update(student)
+      Api.create(student)
         .then(() => {
           this.$emit('onUpdated')
+          this.clearFields()
         })
         .catch((error) => {
+          console.log(error)
           this.$emit('onError', this.extractErrorFromResponse(error))
         })
         .finally(() => {

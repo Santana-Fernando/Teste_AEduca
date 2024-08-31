@@ -1,8 +1,6 @@
 <template>
   <v-toolbar dark prominent :src="background">
-    <v-app-bar-nav-icon></v-app-bar-nav-icon>
-
-    <v-toolbar-title>client</v-toolbar-title>
+    <v-toolbar-title class="ma-0 pa-0 text-h3">Matrículas</v-toolbar-title>
 
     <template v-slot:extension>
       <v-btn fab color="accent" bottom right absolute @click="OnAdd">
