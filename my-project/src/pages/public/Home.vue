@@ -27,7 +27,7 @@
 
       <v-row v-if="!loading">
         <v-col
-          class="pa-1"
+          class="pa-10"
           cols="12"
           v-for="student in students"
           :key="student.RA"
@@ -130,9 +130,14 @@ export default {
       this.snackbar = true
     },
     remove(student) {
-      Api.delete(student.RA).then(() => {
-        this.loadStudents()
-      })
+      const confirmed = window.confirm(
+        'Tem certeza de que deseja excluir este aluno?'
+      )
+      if (confirmed) {
+        Api.delete(student.RA).then(() => {
+          this.loadStudents()
+        })
+      }
     },
     showError(error) {
       this.snackbar_text = error

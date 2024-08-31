@@ -46,7 +46,6 @@
                 append-icon="fa-file-alt"
                 placeholder="CPF do estudante"
                 outlined
-                v-mask="'###.###.###-##'"
               ></v-text-field>
             </v-col>
           </v-row>
